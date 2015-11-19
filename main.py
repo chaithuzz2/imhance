@@ -147,7 +147,7 @@ def applyStandardMedianFilter(image, binary, filter_window_size):
 	delta = math.floor(filter_window_size/2);
 	for m in range(delta,len(binary)-delta):
 		for n in range(delta,len(binary[0])-delta):
-			if(binary[m][n]==0):
+			if(binary[m][n]==1):
 				window = [];
 				for i in range(0,filter_window_size):
 					for j in range(0,fiter_window_size):
