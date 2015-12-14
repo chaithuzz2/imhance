@@ -115,8 +115,26 @@ end
 
 % BDND INITIALIZE AND RUN
 
-function y = initializeAndRunBDND()
-	
+function y = initializeAndRunBDND(path_to_file)
+	image_file = imread(path_to_file);
+	image_file = imnoise(image_file,'salt & pepper',0.10);
+
+	red = image_file(:,:,1);
+	green = image_file(:,:,2);
+	blue = image_file(:,:,3);
+
+	window_size = 21;
+
+	red_filtered = performBDND(window_size,red);
+	green_filtered = performBDND(window_size,green);
+	blue_filtered = performBDND(window_size,blue);
+
+	enhanced_image = cat(3,red_filtered,green_filtered,blue_filtered);
+
+	[X1,map1]=imread(image_file);
+	[X2,map2]=imread(enhanced_image);
+	subplot(1,2,1), subimage(X1,map1)
+	subplot(1,2,2), subimage(X2,map2)
 end
 
 
