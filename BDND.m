@@ -29,7 +29,42 @@ end
 
 %Check If pixels is Noise
 function y = isPixelNoise(a,b,image_matrix, window_size)
+	current_pixel_intensity = image_matrix(a,b);
+	intensity_vector = [];
+	offset=floor(window_size/2);
+	for m = a-offset:a+offset
+		for n = b-offset:b+offset
+			intensity_vector(end+1) = image_matrix(m,n);
+		end
+	end
+	intensity_vector = sort(intensity_vector);
+	len_intensity = length(intensity_vector);
+	difference_vector = zeros(1,len_intensity);
+	for i = 1:len_intensity-1
+		difference_vector(i)=abs(intensity_vector(i)-intensity_vector(i+1));
+	end
+	b1 = getB1(difference_vector,intensity_vector);
+	b2 = getB2(difference_vector, intensity_vector);
+	if current_pixel_intensity >=b1 or current_pixel_intensity <=b2
+		y=0;
+	else
+		second_intensity_vector = [];
+		for m = a-1:a+1
+			for n = b-1:b+1
+				second_intensity_vector(end+1) = image_matrix(m,n);
+			end
+		end
+		len_second_intensity = length(second_intensity_vector);
+		second_difference_vector = zeros(1,len_second_intensity);
+		second_intensity_vector = sort(second_intensity_vector);
+		secondB1 = getB1(second_difference_vector,second_intensity_vector);
+		secondB2 = getB2(second_difference_vector, second_intensity_vector);
 
+		if current_pixel_intensity >=secondB1 and current_pixel_intensity<=secondB2
+			y = 0;
+		else
+			y = 1;
+		end
 end
 
 % apply standard filter
@@ -77,6 +112,12 @@ function y = performBDND(window_size,channel)
 	y = applyStandardMedianFilter(image_matrix, binary_map, filter_window_size);
 end
 
+
+% BDND INITIALIZE AND RUN
+
+function y = initializeAndRunBDND()
+	
+end
 
 
 
