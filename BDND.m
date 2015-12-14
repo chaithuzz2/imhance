@@ -115,7 +115,7 @@ end
 
 % BDND INITIALIZE AND RUN
 
-function y = initializeAndRunBDND(path_to_file)
+function initializeAndRunBDND(path_to_file)
 	image_file = imread(path_to_file);
 	image_file = imnoise(image_file,'salt & pepper',0.10);
 
